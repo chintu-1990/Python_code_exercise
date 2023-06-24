@@ -1,0 +1,72 @@
+;/*++
+;
+;Copyright (c) 1990-2016 Intel Corporation All rights Reserved
+;
+;Module Name:
+;
+;    chipsetpnp.INF
+;
+;Abstract:
+;    INF file for installing chipset power and performance tool
+;
+;--*/
+[Version]
+Signature="$WINDOWS NT$"
+Class=System
+ClassGUID={F5C5AA36-4D5C-490A-A2F1-1527DDE2123C}
+Provider=%INTC%
+DriverVer=06/09/2016,2.0.2
+CatalogFile=CCHWAPI.cat
+
+[DestinationDirs]
+DefaultDestDir = 12
+
+; ================= Manufacturer and Device Enumeration =====================
+[Manufacturer]
+%INTC%=INTC,NTx86
+
+[INTC.NTx86]
+%CCHWAPI.DRVDESC%=CCHWAPI_Inst, root\CCHWAPI
+
+; ================= Device Install Section =====================
+[CCHWAPI_Inst]
+CopyFiles=CCHWAPI.CopyFiles
+AddReg=CCHWAPI.AddReg
+
+[CCHWAPI_Inst.Services]
+AddService=CCHWAPI,0x00000002,CCHWAPI_Service
+
+; ================= Device Files Section =====================
+[CCHWAPI.CopyFiles]
+CCHWAPI.sys
+
+; ================= Device Registry Section =====================
+[CCHWAPI.AddReg]
+
+; ================= Device Service Section =====================
+[CCHWAPI_Service]
+DisplayName    = %CCHWAPI.SVCDESC%                            
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\CCHWAPI.sys                            
+
+; ================= Device Source Disks Section =====================
+[SourceDisksNames]
+1 = %DiskId1%,,,""
+
+[SourceDisksFiles.x86]
+CCHWAPI.sys=1,,
+
+[SourceDisksFiles.amd64]
+CCHWAPIx64.sys=1,,
+
+; ================= Device Strings Section =====================
+[Strings]
+INTC = "Intel"
+CCHWAPI.SVCDESC = "Intel Common code Service"
+CCHWAPI.DRVDESC = "Intel Common code Driver"
+DiskId1 = "Intel Common code Driver Install Disk"
+
+
+
